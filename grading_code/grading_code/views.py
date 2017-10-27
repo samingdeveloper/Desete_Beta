@@ -171,17 +171,18 @@ def grade(request, classroom_id, quiz_id):
     if request.method == "POST":
         code = request.POST['code']
         code = code.lower()
-        if code == 'print("hello world")':
-            code = "print"+"('"+"hello world"+"')"
     class MyTestCase(unittest.TestCase):
         def test_text(self):
             text = code
             self.assertEquals(text, "print('hello world')")
+        def test_text_two(self):
+            text = code
+            self.assertEqual(text, 'print("hello world")')
 
     test_suite = unittest.TestLoader().loadTestsFromTestCase(MyTestCase)
     test_result = TextTestRunner().run(test_suite)
     x = len(test_result.failures)
-    if x == 0:
+    if x == 1:
         result = "PASS"
     else:
         result = "FAIL"
