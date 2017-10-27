@@ -6,26 +6,20 @@
 {% block body %}
 <div class="container-fluid">
 
-    <div class="row">
+    <div class="container">
         <!--Left Quiz Info-->
-        <div class="col-sm-4 col-md-3">
-            <div class="panel-body">
-                <h1>{{classroom}}</h1>
-                {{quiz.quiz_title}}
-            </div>
+        <div class="panel-body">
+            <h2>{{classroom}}</h2>
+            <p>{{quiz.quiz_title}}</p>
         </div>
-    </div>
-       <div class="col-sm-8 col-md-9">
-            <div class=panel-body">
-                <form action="/test/" method="post">
-                    {% csrf_token %}
-                    <textarea type="text" name="code" value=""></textarea>
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-success">Submit</button>
-                    </div>
-                </form>
+        <form action="/test/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+            <textarea class="form-control" row="5" id="code"></textarea>
+                <br>
+                <button type="submit" class="btn btn-success">Submit</button>
             </div>
-       </div>
-
+        </form>
+    </div>
 </div>
 {% endblock %}
