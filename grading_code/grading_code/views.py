@@ -4,6 +4,8 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from .forms import ClassroomForm, QuizForm, UserForm
 from .models import Classroom, Quiz
+import unittest
+from unittest import TextTestRunner
 
 
 def create_classroom(request):
@@ -156,9 +158,33 @@ def quizs(request, filter_by):
             'filter_by': filter_by,
         })
 
+
 def grading(request, classroom_id, quiz_id):
     classroom = get_object_or_404(Classroom, pk=classroom_id)
     quiz = Quiz.objects.get(pk=quiz_id)
-    #if request.method == "POST":
-
     return render(request, 'grading_code/grading.html', {'quiz': quiz, 'classroom': classroom})
+
+
+def grade(request, classroom_id, quiz_id):
+    classroom = get_object_or_404(Classroom, pk=classroom_id)
+    quiz = Quiz.objects.get(pk=quiz_id)
+    if request.method == "POST":
+        code = request.POST['code']
+        code = code.lower()
+        if code == 'print("hello world")':
+            code = "print"+"('"+"hello world"+"')"
+    class MyTestCase(unittest.TestCase):
+        def test_text(self):
+            text = code
+            self.assertEquals(text, "print('hello world')")
+
+    test_suite = unittest.TestLoader().loadTestsFromTestCase(MyTestCase)
+    test_result = TextTestRunner().run(test_suite)
+    x = len(test_result.failures)
+    if x == 0:
+        result = "PASS"
+    else:
+        result = "FAIL"
+    return render(request, 'grading_code/grading.html', {
+        'quiz': quiz, 'classroom': classroom, 'display': result, 'code': code,
+    })

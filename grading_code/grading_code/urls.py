@@ -15,5 +15,5 @@ urlpatterns = [
     url(r'^(?P<classroom_id>[0-9]+)/delete_quiz/(?P<quiz_id>[0-9]+)/$', views.delete_quiz, name='delete_quiz'),
     url(r'^(?P<classroom_id>[0-9]+)/delete_classroom/$', views.delete_classroom, name='delete_classroom'),
     url(r'^(?P<classroom_id>[0-9]+)/grading/(?P<quiz_id>[0-9]+)/$', views.grading, name='grading'),
+    url(r'^(?P<classroom_id>[0-9]+)/grading/(?P<quiz_id>[0-9]+)/result/$', views.grade, name='grade')
 ]
-#(?P<classroom_id>[0-9]+)
